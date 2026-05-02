@@ -13,18 +13,24 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 router.post("/google", async (req, res) => {
   try {
-    const { credential } = req.body;                    // crednetial sent by google when user login
+    const { credential } = req.body;
 
-    const ticket = await client.verifyIdToken({      //this verify credential JWT tocken is real or fake or not expired
+    if (!credential) {
+      return res.status(400).json({ message: "No credential provided" });
+    }
+
+    const ticket = await client.verifyIdToken({
       idToken: credential,
-      audience: process.env.GOOGLE_CLIENT_ID,         //this check that it belong to our website or not
+      audience: process.env.GOOGLE_CLIENT_ID,
     });
 
-    const payload = ticket.getPayload();              //this decodes the tocken into redable JSON data
+    const payload = ticket.getPayload();
 
- 
+    if (!payload || !payload.email) {
+      return res.status(400).json({ message: "Invalid Google token" });
+    }
+
     let user = await User.findOne({ email: payload.email });
-
 
     if (!user) {
       user = await User.create({
@@ -35,17 +41,15 @@ router.post("/google", async (req, res) => {
       });
     }
 
-  
-    const token = jwt.sign(            //this creates your own JWT token for our app to make the use stay authenticated
-      { id: user._id, email: user.email },   //these are the things we want to remember about the use
-      process.env.JWT_SECRET,           //it is used to sign and verify token
-      { expiresIn: "1d" }                     //stay loggged in for 1 day
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
     );
 
     res.json({ token, user });
-
   } catch (err) {
-    console.error(err);
+    console.error("Google Auth Error:", err);
     res.status(401).json({ message: "Auth failed" });
   }
 });

@@ -4,7 +4,7 @@ const CartData = require("../models/cartDataSchema")
 
 router.post("/cartdata", async (req, res) => {
     try {
-        const { email, product_id } = req.body;
+        const { email, product_id ,name , image, price} = req.body;
         let cartdata = await CartData.findOne({email:email})
         if(cartdata){
             cartdata.product_id.push(product_id[0])
