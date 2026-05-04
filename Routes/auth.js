@@ -16,10 +16,10 @@ router.post("/google", async (req, res) => {
     const { credential } = req.body;
 
     const ticket = await client.verifyIdToken({       //this verify credential JWT tocken is real or fake or not expired
-      idToken: credential,
+      idToken: credential,                            // this method is only used to verift google tokens
       audience: process.env.GOOGLE_CLIENT_ID,         //this check that it belong to our website or not
     })
-
+    
     const payload = ticket.getPayload()           //this decodes the tocken into redable JSON data
 
 
@@ -34,13 +34,16 @@ router.post("/google", async (req, res) => {
       })
     }
 
-    const token = jwt.sign(         //this creates your own JWT token for our app to make the use stay authenticated
-      { id: user._id, email: user.email },      //these are the things we want to remember about the use
+    const token = jwt.sign(         //this creates your own JWT token for our app to make the user stay authenticated
+      { id: user._id, email: user.email, name:user.name, picture:user.picture },      //these are the things we want to remember about the use
       process.env.JWT_SECRET,                 //it is used to sign and verify token
       { expiresIn: "1d" }
     )
 
-    res.json({ token, user });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)   //this is the verification method of my token
+
+
+    res.json({ token, user ,decoded})
   } catch (err) {
     console.error("Google Auth Error:", err);
     res.status(401).json({ message: "Auth failed" });
