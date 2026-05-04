@@ -37,7 +37,7 @@ router.post("/google", async (req, res) => {
     const token = jwt.sign(         //this creates your own JWT token for our app to make the user stay authenticated
       { id: user._id, email: user.email, name:user.name, picture:user.picture },      //these are the things we want to remember about the use
       process.env.JWT_SECRET,                 //it is used to sign and verify token
-      { expiresIn: "1d" }
+      { expiresIn: "10s" }
     )
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET)   //this is the verification method of my token
