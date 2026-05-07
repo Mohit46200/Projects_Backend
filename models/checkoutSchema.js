@@ -9,10 +9,7 @@ const checkoutSchema = new mongoose.Schema({
         address:String,
         phone:Number
     },
-    cartdata:[{
-        product_id:Number
-    }]
-
+    cartdata:[Number]
 
   },
   { timestamps: true }

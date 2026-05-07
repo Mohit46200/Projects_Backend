@@ -7,14 +7,10 @@ router.post("/checkout",async (req,res) => {
     try {
         const {email,details,product_id} = req.body
         let checkout = await CheckoutData.create({
-            email:email,
-            details:details,
-            cartdata: [
-                {
-                    product_id
-                }
-            ]
-        }) 
+                email: email,
+                details: details,
+                cartdata: product_id
+            }) 
         res.status(201).json({
                     message:"Success",                    
                 })
