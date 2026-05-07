@@ -9,7 +9,11 @@ router.post("/checkout",async (req,res) => {
         let checkout = await CheckoutData.create({
             email:email,
             details:details,
-            product_id:product_id
+            cartdata: [
+                {
+                    product_id
+                }
+            ]
         }) 
         res.status(201).json({
                     message:"Success",                    
