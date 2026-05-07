@@ -25,7 +25,7 @@ app.use("/",flower)
 app.use("/",plant)
 app.use("/auth", authRoutes)
 app.use("/data", cartData)
-app.us("/check",checkout)
+app.use("/check",checkout)
 
 
 app.listen(PORT, () => {
