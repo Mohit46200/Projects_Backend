@@ -6,13 +6,15 @@ router.post("/cartdata", async (req, res) => {
     try {
         const { email, product_id, delete_cart} = req.body;
         let cartdata = await CartData.findOne({email:email})
-        if(delete_cart){
-            cartdata.product_id = []
-            await cartdata.save()
-        }
-        else if(cartdata){
-            cartdata.product_id.push(product_id[0])
-            await cartdata.save()
+        if(cartdata){
+            if(delete_cart){
+                cartdata.product_id = []
+                await cartdata.save()  
+            }else{
+                cartdata.product_id.push(product_id[0])
+                await cartdata.save() 
+            }
+            
         }else{
             cartdata = await CartData.create({
                 email:email,
