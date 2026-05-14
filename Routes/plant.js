@@ -4,11 +4,11 @@ const router = express.Router()
 router.get("/plant",(req,res) => {
     res.json({
         "0": {
-            "name": "Aloe Vera",
+            "name": "Boxwood Topiary",
             "price": 150,
             "product_id":254054013,
-            "description": "Aloe Vera is a low maintenance succulent known for medicinal properties, soothing gel, and excellent indoor air purifying benefits.",
-            "image": "https://media.istockphoto.com/id/1007753852/photo/aloe.webp?a=1&b=1&s=612x612&w=0&k=20&c=wBN_JuyzE3dH9kuZv5kp6Rf21TnICqZBQFhO8VN6t6c="
+            "description": "A boxwood topiary is a decorative palnt shaped into neat, artistic forms, often used for indoor and outdoor decoration. It is popular for its dense green leaves.",
+            "image": "https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cGxhbnR8ZW58MHx8MHx8fDA%3D"
         },
         "1": {
             "name": "Snake Plant",
